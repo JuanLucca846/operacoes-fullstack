@@ -1,0 +1,46 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0
+    container_name: cadastro-operacoes_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cadastro_operacoes
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./cadastro-operacoes-back
+      dockerfile: src/main/docker/Dockerfile.jvm
+    container_name: cadastrodeoperacoes-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./cadastro-operacoes-front
+      dockerfile: Dockerfile
+    container_name: cadastrodeoperacoes-frontend
+    ports:
+      - "4200:4200"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local

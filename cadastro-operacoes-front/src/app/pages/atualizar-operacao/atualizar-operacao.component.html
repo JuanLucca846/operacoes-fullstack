@@ -1,0 +1,181 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h3>Atualizar operação</h3>
+  </div>
+</div>
+
+<div class="container">
+  <form (ngSubmit)="enviar()" [formGroup]="operacaoForm">
+    <div class="row g-3">
+      <div class="col-sm-6 form-group">
+        <label for="nome" class="required"> Nome da operação </label>
+        <input
+          type="text"
+          formControlName="nome"
+          id="nome"
+          class="form-control"
+          required
+          placeholder="Pix"
+        />
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for="descricao" class="required"> Descrição </label>
+        <input
+          type="text"
+          formControlName="descricao"
+          id="descricao"
+          class="form-control"
+          required
+          placeholder="Contrato de operações pix"
+        />
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-sm-6 form-group">
+        <label for="categoria" class="required"> Categoria </label>
+        <input
+          type="text"
+          formControlName="categoria"
+          id="categoria"
+          class="form-control"
+          required
+          placeholder="Java ou Typescript"
+        />
+      </div>
+
+      <div class="col-sm-6 form-group">
+        <label for="autenticacao" class="required"> Autenticação </label>
+        <input
+          type="text"
+          formControlName="autenticacao"
+          id="autenticacao"
+          class="form-control"
+          required
+          placeholder="JWT"
+        />
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-sm-6 form-group">
+        <label for="permissao" class="required"> Permissão </label>
+        <input
+          type="text"
+          formControlName="permissao"
+          id="permissao"
+          class="form-control"
+          required
+          placeholder="Admin/Todos"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Requisições</h4>
+        <div
+          formArrayName="requisicao"
+          *ngFor="let req of requisicoesArray.controls; let i = index"
+          class="row g-3"
+        >
+          <div [formGroupName]="i" class="col-sm-5 form-group">
+            <label for="req-nome-{{ i }}">Nome</label>
+            <input
+              type="text"
+              formControlName="nome"
+              id="req-nome-{{ i }}"
+              class="form-control"
+              placeholder="Nome da requisição"
+              required
+            />
+          </div>
+          <div [formGroupName]="i" class="col-sm-5 form-group">
+            <label for="req-tipo-{{ i }}">Tipo</label>
+            <input
+              type="text"
+              formControlName="tipo"
+              id="req-tipo-{{ i }}"
+              class="form-control"
+              placeholder="Tipo da requisição"
+              required
+            />
+          </div>
+          <div class="col-sm-2 form-group">
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="removerCampoReq(i)"
+            >
+              Remover
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary mt-3"
+          (click)="adicionarCampoReq()"
+        >
+          Adicionar Requisição
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Respostas</h4>
+        <div
+          formArrayName="resposta"
+          *ngFor="let res of respostasArray.controls; let i = index"
+          class="row g-3"
+        >
+          <div [formGroupName]="i" class="col-sm-5 form-group">
+            <label for="res-nome-{{ i }}">Nome</label>
+            <input
+              type="text"
+              formControlName="nome"
+              id="res-nome-{{ i }}"
+              class="form-control"
+              placeholder="Nome da resposta"
+              required
+            />
+          </div>
+          <div [formGroupName]="i" class="col-sm-5 form-group">
+            <label for="res-tipo-{{ i }}">Tipo</label>
+            <input
+              type="text"
+              formControlName="tipo"
+              id="res-tipo-{{ i }}"
+              class="form-control"
+              placeholder="Tipo da resposta"
+              required
+            />
+          </div>
+          <div class="col-sm-2 form-group">
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="removerCampoRes(i)"
+            >
+              Remover
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary mt-3"
+          (click)="adicionarCampoRes()"
+        >
+          Adicionar Resposta
+        </button>
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-xs-12">
+        <button class="btn btn-success" type="submit">
+          Atualizar operação
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

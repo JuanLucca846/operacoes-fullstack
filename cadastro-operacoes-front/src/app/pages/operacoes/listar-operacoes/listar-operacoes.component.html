@@ -1,0 +1,103 @@
+<div class="row">
+  <h3>Operações cadastradas</h3>
+  <div class="col-xs-12 form-group">
+    <input
+      type="text"
+      (keyup)="buscarOperacoesNomeDescCat()"
+      [(ngModel)]="query"
+      class="form-control"
+      placeholder="Filtrar pelo nome, categoria ou descrição..."
+    />
+  </div>
+</div>
+
+<div *ngIf="operacoesFiltradas.length > 0">
+  <div *ngFor="let operacao of operacoesFiltradas">
+    <p>
+      {{ operacao.nome }} - {{ operacao.descricao }} - {{ operacao.categoria }}
+    </p>
+  </div>
+</div>
+
+<div *ngIf="operacoesFiltradas.length === 0">
+  <p>Nenhuma operação encontrada.</p>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Descrição</th>
+      <th scope="col">Categoria</th>
+      <th scope="col">Autenticação</th>
+      <th scope="col">Permissão</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let operacao of operacoesPaginadas">
+      <th scope="row">{{ operacao.id }}</th>
+      <td>{{ operacao.nome }}</td>
+      <td>{{ operacao.descricao }}</td>
+      <td>{{ operacao.categoria }}</td>
+      <td>{{ operacao.autenticacao }}</td>
+      <td>{{ operacao.permissao }}</td>
+      <td>
+        <a class="btn btn-success btn-sm" routerLink="/lista/{{ operacao.id }}"
+          >Detalhes</a
+        >
+        <a
+          class="btn btn-primary btn-sm"
+          routerLink="/operacao/editar/{{ operacao.id }}"
+          >Editar</a
+        >
+        <a class="btn btn-danger btn-sm" (click)="deletarOperacao(operacao.id)"
+          >Deletar</a
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>
+<nav aria-label="Page navigation example">
+  <ul *ngIf="pager.paginas && pager.paginas.length" class="pagination">
+    <li [ngClass]="{ disabled: pager.paginaAtual === 1 }" class="page-item">
+      <a class="page-link" (click)="mudarPaginas(1)" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Inicio</span>
+      </a>
+    </li>
+    <li [ngClass]="{ disabled: pager.paginaAtual === 1 }" class="page-item">
+      <a class="page-link" (click)="mudarPaginas(pager.paginaAtual - 1)"
+        >&lt;</a
+      >
+    </li>
+    <li
+      *ngFor="let page of pager.paginas"
+      [ngClass]="{ active: pager.paginaAtual === page }"
+      class="page-item"
+    >
+      <a class="page-link" (click)="mudarPaginas(page)">{{ page }}</a>
+    </li>
+    <li
+      [ngClass]="{ disabled: pager.paginaAtual === pager.paginasTotais }"
+      class="page-item"
+    >
+      <a class="page-link" (click)="mudarPaginas(pager.paginaAtual + 1)"
+        >&gt;</a
+      >
+    </li>
+    <li
+      class="page-item"
+      [ngClass]="{ disabled: pager.paginaAtual === pager.paginasTotais }"
+    >
+      <a
+        class="page-link"
+        (click)="mudarPaginas(pager.paginasTotais)"
+        aria-label="Next"
+      >
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Fim</span>
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,11 @@
+@import url("../../../config-scss/variables.scss");
+
+:host {
+  header {
+    background-color: var(--azul);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: rem-calc(40);
+  }
+}

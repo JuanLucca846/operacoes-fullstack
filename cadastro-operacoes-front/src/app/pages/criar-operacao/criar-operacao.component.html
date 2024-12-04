@@ -1,0 +1,227 @@
+<div class="container">
+  <h3>Cadastrar Operação</h3>
+  <p>Cadastre uma operação para ser listada na aba de "Lista de Operações".</p>
+
+  <form [formGroup]="operacaoForm">
+    <div *ngIf="etapa === 1">
+      <h4>Etapa 1: Informações Básicas</h4>
+      <div class="row g-3">
+        <div class="col-sm-6 form-group">
+          <label for="nome" class="required"> Nome da Operação </label>
+          <input
+            type="text"
+            formControlName="nome"
+            id="nome"
+            class="form-control"
+            placeholder="Pix"
+          />
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="descricao" class="required"> Descrição </label>
+          <input
+            type="text"
+            formControlName="descricao"
+            id="descricao"
+            class="form-control"
+            placeholder="Contrato de operações Pix"
+          />
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-sm-6 form-group">
+          <label for="categoria" class="required"> Categoria </label>
+          <input
+            type="text"
+            formControlName="categoria"
+            id="categoria"
+            class="form-control"
+            placeholder="Java ou Typescript"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="etapa === 2">
+      <h4>Etapa 2: Configuração de Permissões</h4>
+      <div class="row g-3">
+        <div class="col-sm-6 form-group">
+          <label for="autenticacao" class="required"> Autenticação </label>
+          <input
+            type="text"
+            formControlName="autenticacao"
+            id="autenticacao"
+            class="form-control"
+            placeholder="JWT"
+          />
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="permissao" class="required"> Permissão </label>
+          <input
+            type="text"
+            formControlName="permissao"
+            id="permissao"
+            class="form-control"
+            placeholder="Admin/Todos"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="etapa === 3">
+      <h4>Etapa 3: Requisições e Respostas</h4>
+      <div
+        formArrayName="requisicao"
+        *ngFor="let req of requisicoesArray.controls; let i = index"
+        class="row g-3"
+      >
+        <div [formGroupName]="i" class="col-sm-5 form-group">
+          <label for="req-nome-{{ i }}">Nome</label>
+          <input
+            type="text"
+            formControlName="nome"
+            id="req-nome-{{ i }}"
+            class="form-control"
+            placeholder="Nome da requisição"
+          />
+        </div>
+        <div [formGroupName]="i" class="col-sm-5 form-group">
+          <label for="req-tipo-{{ i }}">Tipo</label>
+          <input
+            type="text"
+            formControlName="tipo"
+            id="req-tipo-{{ i }}"
+            class="form-control"
+            placeholder="Tipo da requisição"
+          />
+        </div>
+        <div class="col-sm-2 form-group">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="removerCampoReq(i)"
+          >
+            Remover
+          </button>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary mt-3"
+        (click)="adicionarCampoReq()"
+      >
+        Adicionar Requisição
+      </button>
+
+      <div
+        formArrayName="resposta"
+        *ngFor="let res of respostasArray.controls; let i = index"
+        class="row g-3"
+      >
+        <div [formGroupName]="i" class="col-sm-5 form-group">
+          <label for="res-nome-{{ i }}">Nome</label>
+          <input
+            type="text"
+            formControlName="nome"
+            id="res-nome-{{ i }}"
+            class="form-control"
+            placeholder="Nome da resposta"
+          />
+        </div>
+        <div [formGroupName]="i" class="col-sm-5 form-group">
+          <label for="res-tipo-{{ i }}">Tipo</label>
+          <input
+            type="text"
+            formControlName="tipo"
+            id="res-tipo-{{ i }}"
+            class="form-control"
+            placeholder="Tipo da resposta"
+          />
+        </div>
+        <div class="col-sm-2 form-group">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="removerCampoRes(i)"
+          >
+            Remover
+          </button>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary mt-3"
+        (click)="adicionarCampoRes()"
+      >
+        Adicionar Resposta
+      </button>
+    </div>
+
+    <div *ngIf="etapa === 4">
+      <h4>Etapa 4: Revisão</h4>
+      <div class="row">
+        <div class="col-md-12">
+          <h5>Informações Básicas</h5>
+          <p><strong>Nome:</strong> {{ operacaoForm.value.nome }}</p>
+          <p><strong>Descrição:</strong> {{ operacaoForm.value.descricao }}</p>
+          <p><strong>Categoria:</strong> {{ operacaoForm.value.categoria }}</p>
+        </div>
+
+        <div class="col-md-12">
+          <h5>Permissões</h5>
+          <p>
+            <strong>Autenticação:</strong> {{ operacaoForm.value.autenticacao }}
+          </p>
+          <p><strong>Permissão:</strong> {{ operacaoForm.value.permissao }}</p>
+        </div>
+
+        <div class="col-md-12">
+          <h5>Requisições</h5>
+          <ul>
+            <li *ngFor="let req of operacaoForm.value.requisicao">
+              <strong>Nome:</strong> {{ req.nome }}, <strong>Tipo:</strong>
+              {{ req.tipo }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-12">
+          <h5>Respostas</h5>
+          <ul>
+            <li *ngFor="let res of operacaoForm.value.resposta">
+              <strong>Nome:</strong> {{ res.nome }}, <strong>Tipo:</strong>
+              {{ res.tipo }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3 mt-3">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        *ngIf="etapa > 1"
+        (click)="etapaAnterior()"
+      >
+        Voltar
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        *ngIf="etapa < 4"
+        (click)="proximaEtapa()"
+      >
+        Próxima Etapa
+      </button>
+      <button
+        class="btn btn-success"
+        type="submit"
+        *ngIf="etapa === 4"
+        (click)="enviar()"
+      >
+        Confirmar
+      </button>
+    </div>
+  </form>
+</div>
